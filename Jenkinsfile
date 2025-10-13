@@ -48,7 +48,7 @@ node {
 
     stage('Code Deployment') {
         deploy adapters: [
-            tomcat10(
+            tomcat9(
                 credentialsId: 'tomcatcreds',
                 path: '',
                 url: 'http://localhost:9090/'
