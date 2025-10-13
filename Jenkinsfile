@@ -17,13 +17,14 @@ node {
     }
 
     stage('Build Automation') {
-        bat """
-            echo Listing workspace files:
-            dir
-            echo Running Maven build:
-            mvn clean install
-            echo Listing target directory:
-            dir target
+    def mvnHome = tool name: 'Maven3', type: 'maven'
+    bat """
+        echo Listing workspace files:
+        dir
+        echo Running Maven build:
+        "${mvnHome}\\bin\\mvn" clean install
+        echo Listing target directory:
+        dir target
         """
     }
 
