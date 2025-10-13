@@ -1,30 +1,60 @@
-node(){
+node {
 
-	//def sonarHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-	
-	stage('Code Checkout'){
-		checkout changelog: false, poll: false, scm: scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Debanjandevopslearn', url: 'https://github.com/Debanjan-Bhatt/MavenBuild']])
-	}
-	stage('Build Automation'){
-		sh """
-			ls -lart
-			mvn clean install
-			ls -lart target
+    // SonarScanner tool (optional, uncomment if using SonarQube)
+    // def sonarHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 
-		"""
-	}
-	
-	stage('Code Scan'){
-		/*withSonarQubeEnv(credentialsId: 'SonarQubeCreds') {
-			sh "${sonarHome}/bin/sonar-scanner"
-		}*/
-		
-	}
-	stage('Code Coverage ') {
-	    //sh "curl -o coverage.json 'http://35.154.151.174:9000/sonar/api/measures/component?componentKey=com.java.example:java-example&metricKeys=coverage';sonarCoverage=`jq '.component.measures[].value' coverage.json`;if [ 1 -eq '\$(echo '\${sonarCoverage} >= 50'| bc)' ]; then echo 'Failed' ;exit 1;else echo 'Passed'; fi"
-	}
-	
-	stage('Code Deployment'){
-		deploy adapters: [tomcat9(credentialsId: 'tomcatCreds', path: '', url: 'http://localhost:9090/')], contextPath: 'Planview', onFailure: false, war: 'target/*.war'
-	}
+    stage('Code Checkout') {
+        checkout changelog: false, poll: false, scm: [
+            $class: 'GitSCM',
+            branches: [[name: '*/master']],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [],
+            userRemoteConfigs: [[
+                credentialsId: 'Debanjandevopslearn',
+                url: 'https://github.com/Debanjan-Bhatt/MavenBuild'
+            ]]
+        ]
+    }
+
+    stage('Build Automation') {
+        bat """
+            echo Listing workspace files:
+            dir
+            echo Running Maven build:
+            mvn clean install
+            echo Listing target directory:
+            dir target
+        """
+    }
+
+    stage('Code Scan') {
+        /*
+        withSonarQubeEnv(credentialsId: 'SonarQubeCreds') {
+            bat "\"${sonarHome}\\bin\\sonar-scanner.bat\""
+        }
+        */
+    }
+
+    stage('Code Coverage') {
+        // PowerShell version for Windows (optional)
+        // bat """
+        // powershell -Command "
+        //   \$coverage = Invoke-RestMethod -Uri 'http://35.154.151.174:9000/sonar/api/measures/component?componentKey=com.java.example:java-example&metricKeys=coverage';
+        //   if (\$coverage.component.measures.value -lt 50) { exit 1 }
+        // "
+        // """
+    }
+
+    stage('Code Deployment') {
+        deploy adapters: [
+            tomcat9(
+                credentialsId: 'tomcatCreds',
+                path: '',
+                url: 'http://localhost:9090/'
+            )
+        ],
+        contextPath: 'Planview',
+        onFailure: false,
+        war: 'target/*.war'
+    }
 }
