@@ -58,16 +58,4 @@ node {
         onFailure: false,
         war: 'target/*.war'
     }
-    post {
-        success {
-            mail to: 'george.bullet1995@gmail.com',
-                 subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "Good news! The build succeeded. Check the details at ${env.BUILD_URL}"
-        }
-        failure {
-            mail to: 'recipient@example.com',
-                 subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "Oops! The build failed. Check logs at ${env.BUILD_URL}"
-        }
-    }
 }
