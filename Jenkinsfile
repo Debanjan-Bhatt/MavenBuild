@@ -3,7 +3,7 @@ node(){
 	//def sonarHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 	
 	stage('Code Checkout'){
-		checkout changelog: false, poll: false, scm: scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubCreds', url: 'https://github.com/anujdevopslearn/MavenBuild']])
+		checkout changelog: false, poll: false, scm: scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Debanjandevopslearn', url: 'https://github.com/anujdevopslearn/MavenBuild']])
 	}
 	stage('Build Automation'){
 		sh """
@@ -25,6 +25,6 @@ node(){
 	}
 	
 	stage('Code Deployment'){
-		deploy adapters: [tomcat9(credentialsId: 'tomcatCreds', path: '', url: 'http://localhost:8080/')], contextPath: 'Planview', onFailure: false, war: 'target/*.war'
+		deploy adapters: [tomcat9(credentialsId: 'tomcatCreds', path: '', url: 'http://localhost:9090/')], contextPath: 'Planview', onFailure: false, war: 'target/*.war'
 	}
 }
