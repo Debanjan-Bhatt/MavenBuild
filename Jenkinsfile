@@ -21,7 +21,7 @@ node {
             echo Listing workspace files:
             dir
             echo Running Maven build:
-            mvn clean install
+            "C:\ECIPSE\apache-maven-3.6.3-bin\apache-maven-3.6.3\bin\mvn.cmd" clean install
             echo Listing target directory:
             dir target
         """
