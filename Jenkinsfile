@@ -47,15 +47,15 @@ node {
     }
 
     stage('Code Deployment') {
-     //   deploy adapters: [
-     //       tomcat9(
-     //           credentialsId: 'tomcatcreds',
-     //           path: '',
-     //           url: 'http://localhost:9090/'
-     //       )
-     //   ],
-     //   contextPath: 'Planview',
-     //   onFailure: false,
-     //   war: 'target/*.war'
+        deploy adapters: [
+            tomcat9(
+                credentialsId: 'tomcatcreds',
+                path: '',
+                url: 'http://localhost:9090/'
+            )
+        ],
+        contextPath: 'Planview',
+        onFailure: false,
+        war: 'target/*.war'
     }
 }
