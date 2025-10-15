@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3' // Configure this name under Jenkins > Global Tool Configuration
-        jdk 'JDK21'     // Configure your JDK under Jenkins > Global Tool Configuration
+        maven 'Maven3' 
+        jdk 'JDK21'     
     }
 
     stages {
