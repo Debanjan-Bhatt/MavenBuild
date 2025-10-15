@@ -10,7 +10,7 @@ node {
             doGenerateSubmoduleConfigurations: false,
             extensions: [],
             userRemoteConfigs: [[
-                credentialsId: 'Debanjan-Bhatt',
+                credentialsId: 'Githubcreds',
                 url: 'https://github.com/Debanjan-Bhatt/MavenBuild'
             ]]
         ]
